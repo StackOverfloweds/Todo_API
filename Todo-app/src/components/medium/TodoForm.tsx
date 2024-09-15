@@ -23,12 +23,12 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
     }
 
     const newTodo: Todo = {
-      id: Date.now(), // Use current timestamp as a unique ID
+      id: Date.now(), 
       title,
       completed: false,
     };
 
-    // Simulate adding the todo locally
+    
     onAdd(newTodo);
     setTitle('');
     setError(null);
@@ -36,7 +36,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-6 text-center">Add Todo</h1>
+      {/* <h1 className="text-3xl font-bold mb-6 text-center">Add Todo</h1> */}
       <form onSubmit={handleSubmit} className="flex items-center space-x-2">
         <div className="relative flex-1">
           <input
