@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import TodoForm from '../components/medium/TodoForm';
 import ListTodo from '../components/medium/TodoList';
 import './TodoPageStyle.css'
-interface Todo {
+interface Todo {//todos
   id: number;
   title: string;
   completed: boolean;
@@ -12,24 +12,24 @@ const TodoListPage: React.FC = () => {
   const [todos, setTodos] = useState<Todo[]>([]);
 
   const handleAddTodo = (newTodo: Todo) => {
-    setTodos((prevTodos) => [...prevTodos, newTodo]);
+    setTodos((prevTodos) => [...prevTodos, newTodo]);//add todos
   };
 
   const handleCompleteTodo = (id: number) => {
     setTodos((prevTodos) =>
       prevTodos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo
+        todo.id === id ? { ...todo, completed: !todo.completed } : todo//menganti status todos
       )
     );
   };
 
   const handleDeleteTodo = (id: number) => {
-    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));
+    setTodos((prevTodos) => prevTodos.filter((todo) => todo.id !== id));//menghapus todos
   };
 
   const handleEditTodo = (id: number, newTitle: string) => {
     setTodos((prevTodos) =>
-      prevTodos.map((todo) => (todo.id === id ? { ...todo, title: newTitle } : todo))
+      prevTodos.map((todo) => (todo.id === id ? { ...todo, title: newTitle } : todo))//membuat todos dapat diedit
     );
   };
 
