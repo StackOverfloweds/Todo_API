@@ -11,9 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('table_todo', function (Blueprint $table) {
-            $table->id();
+        Schema::create('todo', function (Blueprint $table) {
+            $table->uuid('todo_id')->primary();
+            $table->uuid('user_id');
+            $table->string('name');
+            $table->boolean('status_task');
             $table->timestamps();
+            
+            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
         });
     }
 

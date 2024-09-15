@@ -6,10 +6,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-
-class User extends Authenticatable
+use Tymon\JWTAuth\Contracts\JWTSubject;
+use Illuminate\Support\Str;
+use App\Helpers\EncryptionHelper;
+class User extends Authenticatable implements JWTSubject
 {
     use HasFactory, Notifiable;
+
+    protected $primaryKey="user_id";
+    public $incrementing=false;
+    protected $keyType = "string";
 
     /**
      * The attributes that are mass assignable.
@@ -18,30 +24,54 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        'email',
-        'password',
+        'phone_number',
     ];
 
     /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
+     * create boot method
      */
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
 
-    /**
-     * Get the attributes that should be cast.
+     protected static function boot() {
+        parent::boot();
+
+        //generate UUID for user_id
+        static::creating(function($model){
+            $model->user_id=(string) str::uuid();
+        });
+
+        //add saving event to create profile
+        static::saving(function($model) {
+            $encryptionHelper = new EncryptionHelper();
+            $model->name = $encryptionHelper->encryptData($model->name);
+            $model->phone_number = $encryptionHelper->encryptData($model->phone_number);
+        });
+
+         // Add retrieved event to decrypt data
+         static::retrieved(function ($model) {
+            $encryptionHelper = new EncryptionHelper();
+            $model->name = $encryptionHelper->decryptData($model->name);
+            $model->phone_number = $encryptionHelper->decryptData($model->phone_number);
+        });
+
+     }
+
+     /**
+     * Get the identifier that will be stored in the JWT subject claim.
      *
-     * @return array<string, string>
+     * @return mixed
      */
-    protected function casts(): array
+    public function getJWTIdentifier()
     {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
+        return $this->getKey();
+    }
+
+    /**
+    * Return a key value array, containing any custom claims to be added to the JWT.
+    *
+    * @return array
+    */
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }
