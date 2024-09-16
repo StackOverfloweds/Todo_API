@@ -6,7 +6,7 @@ interface Todo {
   completed: boolean;
 }
 
-interface ListTodoProps {
+interface ListTodoProps {//menampilkan todos 
   todos: Todo[];
   onComplete: (id: number) => void;
   onDelete: (id: number) => void;
@@ -17,12 +17,12 @@ const ListTodo: React.FC<ListTodoProps> = ({ todos, onComplete, onDelete, onEdit
   const [editingTodoId, setEditingTodoId] = useState<number | null>(null);
   const [editTitle, setEditTitle] = useState<string>('');
 
-  const handleEditClick = (todo: Todo) => {
+  const handleEditClick = (todo: Todo) => {//membuka edit todos
     setEditingTodoId(todo.id);
     setEditTitle(todo.title);
   };
 
-  const handleEditSubmit = (id: number) => {
+  const handleEditSubmit = (id: number) => {//mengirimkan editan todos
     onEdit(id, editTitle);
     setEditingTodoId(null); 
   };

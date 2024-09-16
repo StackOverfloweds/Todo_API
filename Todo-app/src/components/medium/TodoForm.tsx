@@ -15,7 +15,7 @@ const TodoForm: React.FC<TodoFormProps> = ({ onAdd }) => {
   const [title, setTitle] = useState<string>(''); 
   const [error, setError] = useState<string | null>(null); 
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {//untuk menambahkan todo Fungsi Add
     event.preventDefault();
     if (!title.trim()) {
       setError('Todo title cannot be empty');
