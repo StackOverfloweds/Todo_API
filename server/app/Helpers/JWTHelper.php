@@ -4,7 +4,6 @@ namespace App\Helpers;
 
 use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
-use Tymon\JWTAuth\Claims\JwtId;
 class JWTHelper {
         
 
