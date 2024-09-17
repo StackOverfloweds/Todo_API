@@ -1,17 +1,16 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import CardLogin from './components/medium/CardLogin'
-import TodoListPage from './pages/TodoListPages'
+import { Routes, Route } from 'react-router-dom';
+import LoginPages from './pages/LoginPages';
+import SignUpPages from './pages/SignUpPages';
+import TodoListPage from './pages/TodoListPages';
 
 function App() {
-
   return (
-    <>
-  <TodoListPage/>
-    </>
-  )
+    <Routes>
+      <Route path="/" element={<LoginPages />} />
+      <Route path="/signup" element={<SignUpPages />} />
+      <Route path="/todo" element={<TodoListPage />} />
+    </Routes>
+  );
 }
 
-export default App
+export default App;
