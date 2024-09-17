@@ -1,6 +1,7 @@
 import React from 'react';
 import { Formik, Field, Form, ErrorMessage, FieldProps } from 'formik';
 import * as Yup from 'yup';
+import { Link } from 'react-router-dom';
 
 const otpValidationSchema = Yup.object({
     otp: Yup.string()
@@ -49,13 +50,14 @@ const OtpForm: React.FC = () => {
                         </Field>
                         <ErrorMessage name="otp" component="div" className="text-red-600 text-sm mt-1" />
                     </div>
-
-                    <button
-                        type="submit"
-                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                    >
-                        Verify OTP
-                    </button>
+                    <Link to={"/todo"}>
+                        <button
+                            type="submit"
+                            className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                        >
+                            Verify OTP
+                        </button>
+                    </Link>
                 </Form>
             )}
         </Formik>

@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 import { Formik, Field, Form, ErrorMessage, FieldProps } from 'formik';
 import * as Yup from 'yup';
 import OtpForm from './OtpForm';
+import { Link } from 'react-router-dom';
 
 const validationSchema = Yup.object({
     phoneNumber: Yup.string()
         .matches(/^[0-9]+$/, 'Nomor HP harus angka !')
         .min(11, 'Minimal 11 digit !')
-        .max(14, 'Minimal 14 digit !')
+        .max(14, 'Maksimal 14 digit !')
         .required('Wajib diisi !'),
     gender: Yup.string().required('Pilih jenis kelamin !'),
 });
@@ -38,10 +39,9 @@ export default function CardSignUp() {
             onSubmit={handleSubmit}
         >
             {({ touched, errors, values }) => (
-                <Form className="relative bg-white/30 backdrop-blur-lg border border-white/50 p-6 rounded-lg shadow-lg w-[700px] h-auto">
-                    <h2 className="text-xl font-bold mb-4">SignUp</h2>
+                <Form className="relative bg-white/30 backdrop-blur-lg border border-white/50 p-6 rounded-lg shadow-lg w-[700px] h-auto flex flex-col justify-center opacity-80">
+                    <h2 className="text-xl font-bold mb-4 text-center">Sign Up</h2>
 
-                    {/* Phone Number Field */}
                     <div>
                         <label htmlFor="phoneNumber" className="block text-gray-800 text-sm font-medium mb-2">
                             Your Phone Number:
@@ -63,7 +63,6 @@ export default function CardSignUp() {
                         <ErrorMessage name="phoneNumber" component="div" className="text-red-600 text-sm mt-1" />
                     </div>
 
-                    {/* Gender Field */}
                     <div className="mt-4">
                         <label htmlFor="gender" className="block text-gray-800 text-sm font-medium mb-2">
                             Your Gender:
@@ -77,18 +76,13 @@ export default function CardSignUp() {
                         <ErrorMessage name="gender" component="div" className="text-red-600 text-sm mt-1" />
                     </div>
 
-                    {/* Buttons */}
-                    <button
-                        type="button"
-                        onClick={() => console.log(values)}
-                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
-                    >
-                        Show Data
-                    </button>
+                    <p className="mt-4 text-center">
+                        Have an account? <Link to={"/"} className="text-blue-500 hover:underline">Sign In</Link>
+                    </p>
 
                     <button
                         type="submit"
-                        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                        className="mt-4 w-full px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
                     >
                         Submit
                     </button>
