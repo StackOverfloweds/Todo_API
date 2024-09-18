@@ -5,7 +5,8 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Helpers\JWTHelper;
-
+use Illuminate\Support\Facades\Log;
+use App\Helpers\RedisHelper;
 class CheckToken
 {
     /**
@@ -17,9 +18,8 @@ class CheckToken
      */
     public function handle(Request $request, Closure $next)
     {
-        // Retrieve token from request header
-        $token = $request->header('Authorization');
-
+        $token = RedisHelper::get(env('REDIS_KEYS_LOGIN'));
+        Log::info("check token middleware : ".json_encode ($token));
         if (!$token) {
             return response()->json(['message' => 'Token not provided'], 401);
         }

@@ -15,10 +15,13 @@ return new class extends Migration
             $table->uuid('todo_id')->primary();
             $table->uuid('user_id');
             $table->string('name');
-            $table->boolean('status_task');
+            $table->boolean('status_task')->default(false);
             $table->timestamps();
             
-            $table->foreign('user_id')->references('user_id')->on('users')->onDelete('cascade');
+            $table->foreign('user_id')
+                ->references('user_id')
+                ->on('users')
+                ->onDelete('cascade');
         });
     }
 

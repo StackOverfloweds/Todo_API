@@ -1,8 +1,6 @@
 <?php
 
 namespace App\Helpers;
-
-use Tymon\JWTAuth\Facades\JWTAuth;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Firebase\JWT\JWT;
@@ -17,7 +15,21 @@ class JWTHelper {
      * @return object
      */
     public static function decodeToken($token) {
-        return JWTAuth::decode($token, env('JWT_SECRET'), ['HS256']);
+        try {
+            //define key
+            $key = env('JWT_SECRET');
+            //decode token
+            $decode = JWT::decode($token, new Key($key, 'HS256'));
+
+            Log::info("Check Decode code : ".json_encode ($decode));
+
+            return $decode;
+        } catch (\Exception $e) {
+            Log::error("failed to decode code : ". $e->getMessage());
+
+            return null;
+            
+        }
     }
 
     /**

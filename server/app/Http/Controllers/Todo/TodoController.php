@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\todoModel;
 use Illuminate\Support\Facades\Validator;
-
+use Illuminate\Support\Facades\Log;
 class TodoController extends Controller
 {
     /**
@@ -31,7 +31,6 @@ class TodoController extends Controller
         $validator = Validator::make($request->all(), [
             'user_id' => 'required|uuid',
             'name' => 'required|string|max:255',
-            'status_task' => 'required|boolean',
         ]);
 
         if ($validator->fails()) {
@@ -68,6 +67,9 @@ class TodoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // Log the provided ID
+         Log::info("Received todo ID: " . $id);
+         
         $validator = Validator::make($request->all(), [
             'name' => 'sometimes|string|max:255',
             'status_task' => 'sometimes|boolean',
@@ -78,7 +80,7 @@ class TodoController extends Controller
         }
 
         $todo = todoModel::find($id);
-
+        Log::info("check id todo : " .json_encode ($todo));
         if (!$todo) {
             return response()->json(['message' => 'Todo not found'], 404);
         }
