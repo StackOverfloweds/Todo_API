@@ -12,11 +12,18 @@ class EncryptionHelper{
 
     // create constructor
     public function __construct() {
-        //Load the public key
-        $this->publicKey = Storage::get(path: env(key: 'PUBLIC_KEY_PATH'));
-        //Load the private key
-        $this->privateKey = Storage::get(env('PRIVATE_KEY_PATH'));
+        // Load the public key
+        $this->publicKey = file_get_contents(public_path(env('PUBLIC_KEY_PATH')));
+        // Load the private key
+        $this->privateKey = file_get_contents(public_path(env('PRIVATE_KEY_PATH')));
+    
+        // Debug: Check if keys are loaded correctly
+        if (!$this->publicKey || !$this->privateKey) {
+            throw new \Exception('Failed to load keys from public directory.');
+        }
     }
+    
+    
 
     /**
      * Encrypt data using the public key.

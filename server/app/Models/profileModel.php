@@ -20,7 +20,6 @@ class profileModel extends Model
         'profile_id',
         'user_id',
         'second_phone_number',
-        'address'
     ];
 
     // relationship
@@ -46,14 +45,12 @@ class profileModel extends Model
             
             $encryptionHelper = new EncryptionHelper();
             $model->second_phone_number = $encryptionHelper->encryptData($model->second_phone_number);
-            $model->address = $encryptionHelper->encryptData($model->address);
         });
 
         // Add retrieved event to decrypt data
         static::retrieved(function ($model) {
             $encryptionHelper = new EncryptionHelper();
             $model->second_phone_number = $encryptionHelper->decryptData($model->second_phone_number);
-            $model->address = $encryptionHelper->decryptData($model->address);
         });
     }
 }
