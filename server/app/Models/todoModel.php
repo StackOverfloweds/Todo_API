@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 class todoModel extends Model
 {
@@ -26,7 +27,12 @@ class todoModel extends Model
         });    
     } 
 
-    public function users () {
-        return $this->belongsTo(User::class);
+     /**
+     * Define the relationship between Todo and User.
+     * 
+     * @return BelongsTo
+     */
+    public function user() {
+        return $this->belongsTo(User::class,'user_id');
     }
 }
