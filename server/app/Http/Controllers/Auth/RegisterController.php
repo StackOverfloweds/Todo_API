@@ -11,7 +11,7 @@ use App\Models\profileModel;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\JWTHelper;
 use App\Helpers\sendCodeHelper;
-
+use Illuminate\Support\Facades\Log;
 class RegisterController extends Controller
 {
     /**
@@ -84,6 +84,7 @@ class RegisterController extends Controller
                     'message' => 'User data not found'
                 ], 400);
             }
+            Log::info('check user data : '.json_encode($userData));
 
             // Start a database transaction
             DB::beginTransaction();
@@ -110,7 +111,7 @@ class RegisterController extends Controller
             //get id from user
             $jwt = new JWTHelper();
             $token = $jwt->generateLoginJWT($user->user_id);
-
+            Log::info('check token : ' . json_encode ($token));
             //configure session login with redis JWT
             RedisHelper::set(env('REDIS_KEYS_LOGIN'), $token, 3600); // 1 hour
             
@@ -122,7 +123,7 @@ class RegisterController extends Controller
         } catch (\Exception $e) {
             // Rollback the transaction if an exception occurs
             DB::rollBack();
-
+            Log::info('check error driver : '.json_encode($e->getMessage()));
             return response()->json([
                 'message' => 'Failed to create user: ' . $e->getMessage()
             ], 500);

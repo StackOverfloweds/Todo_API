@@ -11,17 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('todo', function (Blueprint $table) {
-            $table->uuid('todo_id')->primary();
-            $table->uuid('user_id');
+        Schema::create('personal_access_tokens', function (Blueprint $table) {
+            $table->id();
+            $table->morphs('tokenable');
             $table->string('name');
-            $table->boolean('status_task')->default(false);
+            $table->string('token', 64)->unique();
+            $table->text('abilities')->nullable();
+            $table->timestamp('last_used_at')->nullable();
+            $table->timestamp('expires_at')->nullable();
             $table->timestamps();
-            
-            $table->foreign('user_id')
-                ->references('user_id')
-                ->on('users')
-                ->onDelete('cascade');
         });
     }
 
@@ -30,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('table_todo');
+        Schema::dropIfExists('personal_access_tokens');
     }
 };
